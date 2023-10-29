@@ -26,17 +26,17 @@ conexao.conexao.commit() """
 conexao.conexao.commit()"""
 
 # Lista os registros da tabela
-registros = cursor.execute("SELECT uso_cpu FROM tb_registro")
+registros = cursor.execute("SELECT uso_cpu FROM tb_registro WHERE uso_ram > 90")
 resultado = cursor.fetchall()
 for x in resultado:
     print(x)
 
-resultadoInteiro = int(resultado)
 
-if resultado>75:
+
+if registros is not "":
     DadosSlack = alerta.DadosSlack(
     mensagem=f"TESTE: CPU está fora das métricas {resultado}",
-    conexao = "https://hooks.slack.com/services/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"
+    conexao = "https://hooks.slack.com/services/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"
     
 )
 
@@ -45,7 +45,7 @@ DadosSlack.enviar_mensagem()
 DadosJira = jira.DadosJira(
     url = "https://stock-safe-solutions.atlassian.net/rest/api/3/issue",
     responsavel="stephany.justino@sptech.school",
-    tokenConexao="ATATT3xFfGF0Ts4XoKjh8AwEkcWNOEIN8ertxXPiILZcVXoiZduTrNPF9DVcihsmue8q2m4FdrYm8U_Cg6iwpeotYG7xAY3nA90u4uMf_uz02yw-01Fl-wp3k9fu6XY384mZb9GHa4oGPRJZ9XIhsBxMDSaPLeAV0K0yjrxg6vc79w1Y_LurqyA=965A04E3"
+    tokenConexao="ATATT3xFfGF0mPVHEz4vbo3MOd4BD1ZYrThPWNnZ-xmmItbdyJUmuJRTseI59LPB5E8TeFnBiM73Br0R_pDZt_iLcqOw66gcwXm8R-1pP2MaNdMN2Bph8UvJtrJTYSWZ3lkowRzn-AhFwZ8bReL0YGDZIAKngUt3PE0-dQ-GADmv-kDXF8MqiVA=12E14993"
 )
 
 DadosJira.abrirAlerta(f"TESTE: CPU está fora das métricas {resultado}", "STOCKSAFE", "Task")
